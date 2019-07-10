@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="row">
+    <div class="col-lg-8 offset-2">
+        <form action="" method="post">{% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+        </div>
+ {% if messages.count > 0 %}
+        <textarea> {% for messages in messages %}{{messages.message}}{{messages.user}} {% endfor %}</textarea>
+        {% endif %}
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a> |
+    <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+{% endblock content %}
