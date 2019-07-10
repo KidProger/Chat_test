@@ -31,4 +31,6 @@ class MessageCreateView(CreateView):
     def get(self, request):
         form = self.form_class(initial=self.initial)
         messages = MessageModel.objects.all()
-        return render(request, "send.html", {"messages": messages, 'form': form})
+        if request.user.is_authenticated:
+            username = request.user.username
+        return render(request, "send.html", {"messages": messages, 'form': form, "username": username})

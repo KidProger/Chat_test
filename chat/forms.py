@@ -1,4 +1,7 @@
 from django import forms
 
+from .models import MessageModel
+
 class MessageForm(forms.Form):
-    message = forms.CharField(widget=forms.Textarea, label='Your message')
+    model = MessageModel
+    message = forms.CharField(widget=forms.Textarea)

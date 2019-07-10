@@ -4,17 +4,28 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <div class="row">
-    <div class="col-lg-8 offset-2">
+ {% if messages.count > 0 %}
+<div class="placeholder"></div>
+<div class="row">
+     <div class="col-lg-2">
+         Chats
+     </div>
+    <div class="col-lg-8">
+
+         {% for messages in messages %}{%if username == messages.user.username %}
+          <div class="left_text">{{messages.message}}{{messages.user}}</div> {% else %}
+       <div class="right_text">{{messages.message}}{{messages.user}}</div>  {% endif %} {% endfor %}
+        {% endif %}
+
         <form action="" method="post">{% csrf_token %}
             {{ form }}
-            <input type="submit" value="Submit" />
+            <input type="submit" class="send" value="Submit">
         </form>
     </div>
+    <div class="col-lg-2">
+         Users
+     </div>
         </div>
- {% if messages.count > 0 %}
-        <textarea> {% for messages in messages %}{{messages.message}}{{messages.user}} {% endfor %}</textarea>
-        {% endif %}
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |
