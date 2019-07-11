@@ -4,39 +4,10 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<div class="placeholder"></div>
-<div class="row">
-     <div class="col-lg-2">
-{% for user in users_id %}
-{% if user == username.id %}
-         Chats:
-         {% for chat in chats%}
-         {{chat.name}} <br>
-         {% endfor %}
-{% endif %}
-{% endfor %}
- </div>
-    <div class="col-lg-8">
-        <div class="text">
-    {% if messages.count > 0 %}
-         {% for messages in messages %}{%if username.username == messages.user.username %}
-          <div class="right_text">{{messages.message}}{{messages.user}}</div> {% else %}
-       <div class="left_text">{{messages.message}}{{messages.user}}</div>  {% endif %} {% endfor %}
-        {% endif %}
-        </div>
-        <form action="" method="post">{% csrf_token %}
-            {{ form }}
-            <input type="submit" class="send" value="Submit">
-        </form>
-    </div>
-    <div class="col-lg-2">
-        Users:
-        {% for user in users_name %}
-        {{user}}
-        {% endfor %}
-     </div>
-        </div>
-
+    List of available chats:<br>
+    {% for chat in chats %}
+    <a href="{%url 'cheat' chat%}">Chat №{{chat}}</a> <br>
+    {%endfor%}
 
 {% else %}
     <p>You are not logged in</p>

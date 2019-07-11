@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-
-{% block title %}Home{% endblock title %}
-
 {% block content %}
+{% load crispy_forms_tags %}
     {% if user.is_authenticated %}
-    Hi {{ user.username }}!
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
-    <p><a href="{% url 'chat' %}">List of your available chats</a> </p>
+        {% if message != Null %}
+             <p>  {{message}} </p>
+{% else %} <p> You do not have access to this chat, create or ask to invite </p>
+        {% endif %}
+<a href="{% url 'create' %}">Create chat</a>
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |

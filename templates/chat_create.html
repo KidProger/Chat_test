@@ -1,12 +1,20 @@
+{% extends 'base.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
     {% if user.is_authenticated %}
 
-      <form action="" method="post">{% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Create" />
-    </form>
 
+
+    <div class="form">
+      <form action="" method="post">
+          {% csrf_token %}
+      {{ form|crispy }}
+     <input type="submit" value="Create" />
+      </form>
+    </div>
+    {% if message != Null %}
+          <p>  {{message}} </p>
+        {% endif %}
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |

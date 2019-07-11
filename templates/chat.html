@@ -8,29 +8,26 @@
 <div class="placeholder"></div>
 <div class="row">
      <div class="col-lg-2">
-{% for user in users_id %}
-{% if user == username.id %}
+
          Chats:<br>
-         {% for chat in chats%}
-         <a href="{% url 'cheat' chat.pk %}"> {{chat.name}} </a>
+         {% for chat in chat_list%}
+         <a href="{% url 'cheat' chat %}">Chat №{{chat}} </a>
          <br>
          {% endfor %}
-{% endif %}
-{% endfor %}
+          <a href="{% url 'create' %}">Add new Chat</a>
  </div>
     <div class="col-lg-8">
         <div class="text">
 
     {% if messages.count > 0 %}
-         {% for messages in messages %}
-            {% if primk != messages.chat.pk %}
-            <p>No messages</p>
-            {% else%}
+            {% for messages in messages %}
             {%if username.username == messages.author.username %}
           <div class="right_text">{{messages.message}}{{messages.author.username}}</div>
             {% else %}
        <div class="left_text">{{messages.message}}{{messages.author.username}}</div>
-            {% endif %} {% endif %} {% endfor %}
+            {% endif %} {% endfor %}
+        {% else%}
+            <p>No messages</p>
         {% endif %}
 
         </div>
@@ -41,7 +38,7 @@
     </div>
     <div class="col-lg-2">
         Users:
-        {% for user in chat_id %}
+        {% for user in users_name %}
         {{user}}
         {% endfor %}
      </div>
