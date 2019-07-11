@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat{% endblock title %}
+
+{% block content %}
+
+{% for chat in all_chat_list%}
+         {{chat.name}}
+         {% endfor %}
+
+{% endblock content %}

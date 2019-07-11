@@ -4,14 +4,29 @@
 
 {% block content %}
 {% if user.is_authenticated %}
- {% if messages.count > 0 %}
 <div class="placeholder"></div>
 <div class="row">
      <div class="col-lg-2">
-         Chats
-     </div>
-    <div class="col-lg-8">
+{% for chats in chat%}
+{% for user in chats.user.all %}
+{% if user.id == username.id %}
 
+         Chat {{chats.name}} <br>
+{% else %}
+<p>You don't have chats</p>
+
+
+<p>Create Chat:</p>
+ <form action="" method="post">{% csrf_token %}
+{{ chatform }}
+ <input type="submit" value="Create">
+      </form>
+{% endif %}
+{% endfor %}
+{% endfor %}
+ </div>
+    <div class="col-lg-8">
+    {% if messages.count > 0 %}
          {% for messages in messages %}{%if username == messages.user.username %}
           <div class="left_text">{{messages.message}}{{messages.user}}</div> {% else %}
        <div class="right_text">{{messages.message}}{{messages.user}}</div>  {% endif %} {% endfor %}
@@ -23,9 +38,12 @@
         </form>
     </div>
     <div class="col-lg-2">
-         Users
+        Users
+
      </div>
         </div>
+
+
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |
