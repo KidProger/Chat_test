@@ -9,6 +9,7 @@ import datetime
 
 
 
+
 class MessageCreateView(CreateView):
     model = MessageModel
     template_name = "send.html"
@@ -24,9 +25,9 @@ class MessageCreateView(CreateView):
             message.save()
         chatForm = ChatCreateForm(request.POST)
         if chatForm.is_valid():
-            user = CustomUser.objects.get(username=request.POST.get("user"))
-            chat = ChatModel.objects.create(name=request.POST.get("name"))
-            chat.user.add(user)
+             user = CustomUser.objects.get(username=request.POST.get("user"))
+             chat = ChatModel.objects.create(name = request.POST.get("name"))
+             chat.user.add(user)
 
             #  chat.user = request.POST.get("user")
                  #    chats = ChatModel.objects.create(name=chat.name, user = chat.user)
@@ -45,12 +46,12 @@ class MessageCreateView(CreateView):
 
 
     def render_msg(self, request):
-        chats = ChatModel.objects.filter(user=request.user)
+        chat = ChatModel.objects.filter(user=request.user)
         chatForm = ChatCreateForm()
         form = self.form_class(initial=self.initial)
         if request.user.is_authenticated:
             username = request.user
         messages = MessageModel.objects.all()
-        template = render(request, "send.html", {"messages": messages, 'form': form, "username": username, "chats": chats,
+        template = render(request, "send.html", {"messages": messages, 'form': form, "username": username, "chat": chat,
                                                 "chatform": chatForm})
-        return template
+        return template 
