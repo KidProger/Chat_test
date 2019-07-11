@@ -1,14 +1,57 @@
-{% block content %}
-    {% if user.is_authenticated %}
+{% extends 'base.html' %}
 
-      <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create" />
-    </form>
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="chatt">
+    <h2>{{ chat.name }}</h2>
+    </div>
+<div class="placeholder"></div>
+<div class="row">
+     <div class="col-lg-2">
+{% for user in users_id %}
+{% if user == username.id %}
+         Chats:<br>
+         {% for chat in chats%}
+         <a href="{% url 'cheat' chat.pk %}"> {{chat.name}} </a>
+         <br>
+         {% endfor %}
+{% endif %}
+{% endfor %}
+ </div>
+    <div class="col-lg-8">
+        <div class="text">
+
+    {% if messages.count > 0 %}
+         {% for messages in messages %}
+            {% if primk != messages.chat.pk %}
+            <p>No messages</p>
+            {% else%}
+            {%if username.username == messages.author.username %}
+          <div class="right_text">{{messages.message}}{{messages.author.username}}</div>
+            {% else %}
+       <div class="left_text">{{messages.message}}{{messages.author.username}}</div>
+            {% endif %} {% endif %} {% endfor %}
+        {% endif %}
+
+        </div>
+        <form action="" method="post">{% csrf_token %}
+            {{ form }}
+            <input type="submit" class="send" value="Submit">
+        </form>
+    </div>
+    <div class="col-lg-2">
+        Users:
+        {% for user in chat_id %}
+        {{user}}
+        {% endfor %}
+     </div>
+        </div>
+
 
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |
     <a href="{% url 'signup' %}">Sign Up</a>
 {% endif %}
+
 {% endblock content %}

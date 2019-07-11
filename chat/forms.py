@@ -7,7 +7,12 @@ class MessageForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
 
-class ChatCreateForm(forms.Form):
-    model = ChatModel
-    name = forms.CharField(max_length=100)
+class ChatCreateForm(forms.ModelForm):
     user = forms.CharField(max_length=30)
+    class Meta:
+        model = ChatModel
+        fields = ['name']
+   #     name = forms.CharField(max_length=100)
+
+
+
