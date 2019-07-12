@@ -126,6 +126,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 AUTH_USER_MODEL = 'Users.CustomUser'
-LOGIN_REDIRECT_URL = 'chat'
+LOGIN_REDIRECT_URL = 'chat_list'
 LOGOUT_REDIRECT_URL = 'home'
 CRISPY_TEMPLATE_PACK = 'bootstrap'

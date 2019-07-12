@@ -2,16 +2,13 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <div class="chatt">
-    <h2>{{ chat.name }}</h2>
-    </div>
 <div class="placeholder"></div>
 <div class="row">
      <div class="col-lg-2">
 
          Chats:<br>
          {% for chat in chat_list%}
-         <a href="{% url 'cheat' chat %}">Chat №{{chat}} </a>
+         <a href="{% url 'chat' chat %}">Chat №{{chat}} </a>
          <br>
          {% endfor %}
           <a href="{% url 'create' %}">Add new Chat</a>

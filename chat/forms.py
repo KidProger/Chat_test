@@ -12,7 +12,6 @@ class ChatCreateForm(forms.ModelForm):
     class Meta:
         model = ChatModel
         fields = ['name']
-   #     name = forms.CharField(max_length=100)
 
 
 

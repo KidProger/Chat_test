@@ -6,7 +6,8 @@
              <p>  {{message}} </p>
 {% else %} <p> You do not have access to this chat, create or ask to invite </p>
         {% endif %}
-<a href="{% url 'create' %}">Create chat</a>
+Return to: <a href="{% url 'create' %}">Create chat</a>
+            <p><a href="{% url 'chat_list' %}">List of your available chats</a> </p>
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |

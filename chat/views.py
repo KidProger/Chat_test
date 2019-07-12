@@ -6,6 +6,7 @@ from Users.models import CustomUser
 from django.shortcuts import render
 from .forms import MessageForm, ChatCreateForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpRequest, HttpResponse
 import datetime
 
 
@@ -14,51 +15,51 @@ class ChatView(DetailView):
     template_name = 'chat.html'
     form_class = MessageForm
 
-    def post(self, request, pk):
-            form = self.form_class(request.POST)
-            if form.is_valid():
-                message = MessageModel()
-                message.message = request.POST.get("message")
-                message.date = datetime.datetime.now()
-                message.author = request.user
-                message.chat = ChatModel.objects.get(pk=pk)
-                message.save()
-            template = self.render_msg(request, pk)
-            return template
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """ Takes input messages from chat, check for valid and save it to database.  """
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            message = MessageModel()
+            message.message = request.POST.get("message")
+            message.date = datetime.datetime.now()
+            message.author = request.user
+            message.chat = ChatModel.objects.get(pk=pk)
+            message.save()
+        template = self.render_page(request, pk)
+        return template
 
 
 
 
-    def get(self, request, pk):
-            template = self.render_msg(request, pk)
-            return template
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """ Accepts Get request and render template with a call to the render_page  """
+        template = self.render_page(request, pk)
+        return template
 
 
-    def render_msg(self, request, pk):
+    def render_page(self, request: HttpRequest, pk: int) -> HttpResponse:
+        """ Check for authorization. Select data from database and render it in chat.html"""
         user_name_list = []
         current_chat = ChatModel.objects.get(pk=pk)
         user_name_list.append(current_chat.user.get().username)
         user_name_list.append(current_chat.owner)
         if request.user.is_authenticated and request.user.username in user_name_list:
-            chats_list = []
+            user_all_chats_list = []
             user_chat_list = ChatModel.objects.filter(user=request.user)
             for chat in user_chat_list:
-                chats_list.append(chat.id)
+                user_all_chats_list.append(chat.id)
             owner_chat_list = ChatModel.objects.filter(owner=request.user)
             for chat in owner_chat_list:
-                chats_list.append(chat.id)
-            chats = ChatModel.objects.all()
+                user_all_chats_list.append(chat.id)
+            all_chats = ChatModel.objects.all()
             user_id_list = []
-            for chat in chats:
+            for chat in all_chats:
                 for user in chat.user.all():
                     user_id_list.append(user.id)
-            chatForm = ChatCreateForm()
-            form = self.form_class()
-            username = request.user
             messages =  MessageModel.objects.filter(chat = ChatModel.objects.get(pk=pk))
-            template = render(request, "chat.html", {"messages": messages, 'form': form, "username": username,
-                                                     "chats": chats, "chatform": chatForm, "users_id": user_id_list,
-                                                     "users_name": user_name_list, "primk": pk, "chat_list": set(chats_list)})
+            template = render(request, "chat.html", {"messages": messages, 'form': self.form_class(), "username": request.user,
+                                                     "chats": all_chats, "users_id": user_id_list, "users_name": user_name_list,
+                                                     "chat_list": set(user_all_chats_list)})
             return template
         else:
             return HttpResponseRedirect('/chat/error')
@@ -68,11 +69,12 @@ class ChatCreateView(CreateView):
     model = ChatModel
     form_class = ChatCreateForm
     template_name = "chat_create.html"
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
+            """ Check for valid data, create new chat and redirect"""
             chatForm = ChatCreateForm(request.POST)
             if chatForm.is_valid():
                 try:
-                    message = "Error: unregistered user"
+                    message = "Error: User doesn't exist"
                     user = CustomUser.objects.get(username=request.POST.get("user"))
                 except ObjectDoesNotExist:
                     return render(request, "errors_chat.html", {"message": message})
@@ -83,14 +85,17 @@ class ChatCreateView(CreateView):
                 chat = ChatModel.objects.create(name=request.POST.get("name"), owner = owner)
                 chat.user.add(user)
                 return HttpResponseRedirect('/chat/')
+            else:
+                return HttpResponseRedirect('/chat/error')
 
 
 
 class ChatListView(ListView):
     model = ChatModel
-    template_name = "send.html"
+    template_name = "chat_list.html"
 
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """ Check for authorization. Select all available chats for user and render it"""
         if request.user.is_authenticated:
             chats_list = []
             user_chat_list = ChatModel.objects.filter(user = request.user)
@@ -99,6 +104,6 @@ class ChatListView(ListView):
             owner_chat_list = ChatModel.objects.filter(owner = request.user)
             for chat in owner_chat_list:
                     chats_list.append(chat.id)
-            return render(request, "send.html", {"chats": set(chats_list)})
+            return render(request, "chat_list.html", {"chats": set(chats_list)})
         else:
             return HttpResponseRedirect('/chat/not_auth/')

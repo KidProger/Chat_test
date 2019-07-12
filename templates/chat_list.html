@@ -7,7 +7,7 @@
     {% if chats|length > 0 %}
     List of available chats:<br>
     {% for chat in chats %}
-    <a href="{%url 'cheat' chat%}">Chat №{{chat}}</a> <br>
+    <a href="{%url 'chat' chat%}">Chat №{{chat}}</a> <br>
     {%endfor%}
     {% else %}
     You are not in any chat.
