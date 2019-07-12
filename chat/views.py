@@ -90,6 +90,18 @@ class ChatCreateView(CreateView):
         else:
             return render(request, "errors_chat.html", {"message": "Chat is exist"})
 
+    def get(self, request: HttpRequest) -> HttpResponse:
+        chatForm = ChatCreateForm()
+        chats = ChatModel.objects.all()
+        chat_list = []
+        for chat in chats:
+            chat_list.append(chat.name)
+        users = CustomUser.objects.all()
+        user_list = []
+        for user in users:
+            user_list.append(user.username)
+        return render(request, self.template_name, {"users": user_list, "chatform": chatForm, "chat_list": chat_list})
+
 class UserAddView(CreateView):
     model = ChatModel
     form_class = ChatCreateForm
@@ -117,6 +129,18 @@ class UserAddView(CreateView):
             return HttpResponseRedirect('/chat/')
         else:
             return HttpResponseRedirect('/chat/error')
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        chatForm = ChatCreateForm()
+        chats = ChatModel.objects.all()
+        chat_list = []
+        for chat in chats:
+            chat_list.append(chat.name)
+        users = CustomUser.objects.all()
+        user_list = []
+        for user in users:
+            user_list.append(user.username)
+        return render(request, self.template_name, {"user_list": user_list, "chatform": chatForm, "chat_list": chat_list})
 
 
 class ChatListView(ListView):

@@ -8,10 +8,23 @@
     <div class="form">
       <form action="" method="post">
           {% csrf_token %}
-      {{ form|crispy }}
-     <input type="submit" value="Add" />
+      {{ chatform|crispy }}
+     <input type="submit" value="Create" />
       </form>
     </div>
+
+  <div class="users_list" style="margin-top: 20px;">
+        All users:
+        {% for user in user_list %}
+        {{user}}
+        {%endfor%}
+</div>
+<div class="chats_list" style="margin-top: 20px;">
+        All chats:
+        {% for chat in chat_list %}
+        {{chat}}
+        {%endfor%}
+</div>
     {% if message != Null %}
           <p>  {{message}} </p>
         {% endif %}
