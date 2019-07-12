@@ -36,3 +36,9 @@ $ python manage.py runserver
 open the website and input
 http://127.0.0.1:8000/
 ```
+# URLS
+```
+http://127.0.0.1:8000/ - homepage
+http://127.0.0.1:8000/signup/ - registration
+http://127.0.0.1:8000/users/login/ - login
+http://127.0.0.1:8000/chat/ - List of available chats for current user
