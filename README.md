@@ -12,14 +12,14 @@ Django chat
 
 
 # Install
-
+```
 $ git clone https://github.com/KidProger/Chat_test
-
+```
 
 # Usage
 
 Example:
-
+```
 $ cd Chat_test
 $ create your virtual environment
 $ pip install -r requirements.txt  
@@ -35,3 +35,4 @@ $ python manage.py runserver
 
 open the website and input
 http://127.0.0.1:8000/
+```
