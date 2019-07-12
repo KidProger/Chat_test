@@ -4,11 +4,15 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+    {% if chats|length > 0 %}
     List of available chats:<br>
     {% for chat in chats %}
     <a href="{%url 'cheat' chat%}">Chat №{{chat}}</a> <br>
     {%endfor%}
-
+    {% else %}
+    You are not in any chat.
+     <a href="{% url 'create' %}">Add new Chat</a>
+    {% endif %}
 {% else %}
     <p>You are not logged in</p>
     <a href="{% url 'login' %}">Log In</a> |
