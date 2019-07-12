@@ -43,4 +43,4 @@ http://127.0.0.1:8000/signup/ - registration
 http://127.0.0.1:8000/users/login/ - login
 http://127.0.0.1:8000/chat/ - List of available chats for current user
 http://127.0.0.1:8000/chat/createchat/ - form for creating chats. For create new chat, you need to fill Chat name and User name fields. Notice: User name field should be different from your User name
-http://127.0.0.1:8000/chat/adduser/ - form for adding users to chat. Notice: Chat name field should be the same as where you want to add user
+http://127.0.0.1:8000/chat/adduser/ - form for adding users to chat. Notice: Chat name field should be the same as chat name where you want to add user
