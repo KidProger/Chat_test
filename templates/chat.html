@@ -2,7 +2,13 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<div class="placeholder"></div>
+<div class="placeholder">
+    {% for chat in chats%}
+    {% if chat.id == pk %}
+     <h2>{{chat.name}}</h2>
+    {% endif %}
+    {% endfor %}
+</div>
 <div class="row">
      <div class="col-lg-2">
 
@@ -16,12 +22,14 @@
     <div class="col-lg-8">
         <div class="text">
 
+
     {% if messages.count > 0 %}
             {% for messages in messages %}
             {%if username.username == messages.author.username %}
-          <div class="right_text">{{messages.message}}{{messages.author.username}}</div>
+
+            <div class="right_text"><p class="p_message">{{messages.message}}<br> From: {{messages.author.username}}</p></div>
             {% else %}
-       <div class="left_text">{{messages.message}}{{messages.author.username}}</div>
+       <div class="left_text"><p class="p_message">{{messages.message}}<br> From: {{messages.author.username}}</p></div><br>
             {% endif %} {% endfor %}
         {% else%}
             <p>No messages</p>
@@ -34,10 +42,11 @@
         </form>
     </div>
     <div class="col-lg-2">
-        Users:
+        Users:<br>
         {% for user in users_name %}
-        {{user}}
+        {{user}} <br>
         {% endfor %}
+        <a href="{% url 'add' %}">Add new User</a>
      </div>
         </div>
 
